@@ -5,5 +5,3 @@ insert into Robots(idRobot, numSerie) values
         (1002, 123456789);
 
 
-insert into Users_Robots(idUsers, idRobots) values
-        (1001, 1002);
