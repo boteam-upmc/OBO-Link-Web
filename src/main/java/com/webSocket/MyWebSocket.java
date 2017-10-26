@@ -8,6 +8,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 @ServerEndpoint("/websocket")
@@ -16,7 +17,7 @@ public class MyWebSocket {
 
     private static int onlineCount = 0;
 
-    private static CopyOnWriteArraySet<MyWebSocket> webSocketSet = new CopyOnWriteArraySet<>();
+    private static ArrayList<MyWebSocket> webSocketSet = new ArrayList<>();
 
     private Session session;
 
@@ -61,5 +62,9 @@ public class MyWebSocket {
 
     public static synchronized void subOnlineCount (){
         MyWebSocket.onlineCount--;
+    }
+
+    public static ArrayList<MyWebSocket> getWebSocketSet() {
+        return webSocketSet;
     }
 }

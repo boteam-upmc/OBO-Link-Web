@@ -1,5 +1,7 @@
 package com.services;
 
+import com.webSocket.MyWebSocket;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -47,9 +49,15 @@ public class Server extends Thread{
                 //if(msg.endsWith("/")){ /* toutes les requetes se terminent par un / */
                 req = msg.split("/");
                 switch (req[0]) {
-                    case "ValidationID":
+                    case "ASSOC":
                         // envoi client
-                        out.println("ID-ROBOT:TRUE");
+
+                        if(!MyWebSocket.getWebSocketSet().isEmpty()){
+                            MyWebSocket.getWebSocketSet().get(0).sendMessage("Do you want to associate this robot (ID : "+req[2]+" )");
+                            out.println("ID-ROBOT:TRUE");
+                        }else{
+                            out.println("ID-ROBOT:FALSE");
+                        }
                         break;
                     default:
                         System.out.println("TraitementMessage: COMMANDE IGNOREE");
