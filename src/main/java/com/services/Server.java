@@ -53,7 +53,7 @@ public class Server extends Thread{
                         // envoi client
 
                         if(!MyWebSocket.getWebSocketSet().isEmpty()){
-                            MyWebSocket.getWebSocketSet().get(0).sendMessage("Do you want to associate this robot (ID : "+req[2]+" )");
+                            MyWebSocket.getWebSocketSet().get(0).sendMessage("Do you want to associate this robot (ID : "+req[2]+" )", Integer.valueOf(req[1]).intValue(), Integer.valueOf(req[2]).intValue());
                             out.println("ID-ROBOT:TRUE");
                         }else{
                             out.println("ID-ROBOT:FALSE");

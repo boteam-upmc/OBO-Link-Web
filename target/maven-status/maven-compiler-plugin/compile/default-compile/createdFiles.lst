@@ -1,11 +1,16 @@
+com/webSocket/MyWebSocket.class
 com/services/ValidationID.class
+com/config/WebSocketConfig.class
 com/repository/ClientRepository.class
+com/domain/QAssociationUsersRobots.class
+com/domain/AssociationUsersRobots.class
 com/Application.class
 com/domain/QUsers.class
 com/domain/Robots.class
 com/repository/UserRepository.class
 com/domain/QRobots.class
 com/services/Server.class
+com/repository/AssociationRepository.class
 com/domain/Users.class
 com/controller/RobotController.class
 com/controller/UsersController.class

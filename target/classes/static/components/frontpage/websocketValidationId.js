@@ -36,7 +36,23 @@ window.onbeforeunload = function () {
 //将消息显示在网页上
 function setMessageInnerHTML(innerHTML) {
    //document.getElementById('message').innerHTML += innerHTML + '<br/>';
-    confirm(innerHTML);
+    //confirm(innerHTML);
+    bootbox.confirm({
+        title: "Add Robot?",
+        message: innerHTML,
+        buttons: {
+            cancel: {
+                label: '<i class="fa fa-times"></i> Cancel'
+            },
+            confirm: {
+                label: '<i class="fa fa-check"></i> Confirm'
+            }
+        },
+        callback: function (result) {
+            console.log("message"+result);
+            websocket.send(result);
+        }
+    });
 }
 
 //关闭连接

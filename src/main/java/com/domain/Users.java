@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "Users")
 @Data
-@NoArgsConstructor
 public class Users{
     @Id
     private Integer idUsers;

@@ -1,6 +1,11 @@
 package com.webSocket;
 
+import com.domain.AssociationUsersRobots;
+import com.repository.AssociationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
@@ -9,6 +14,7 @@ import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 @ServerEndpoint("/websocket")
@@ -20,6 +26,9 @@ public class MyWebSocket {
     private static ArrayList<MyWebSocket> webSocketSet = new ArrayList<>();
 
     private Session session;
+
+    @Autowired
+    AssociationRepository repository;
 
     //TODO modifier pour que appler ce methode quand le client se connecter
     @OnOpen
@@ -42,14 +51,31 @@ public class MyWebSocket {
     @OnMessage
     public void onMessage (String message, Session session) throws IOException {
         System.out.println("From client:" + message);
-        // chat
-        for ( MyWebSocket item : webSocketSet ){
-            item.sendMessage(message);
+        System.out.println("idu"+idu);
+        System.out.println("idu"+idr);
+        if(Boolean.valueOf(message).booleanValue()){
+            System.out.println("aaaa");
+
+        }else{
+           System.out.println("qqq");
         }
+        // chat
+       // for ( MyWebSocket item : webSocketSet ){
+         //   item.sendMessage(message);
+        //}
     }
 
-    public void sendMessage (String message) throws IOException {
+    int idu;
+    int idr;
+
+    HashMap<Integer, String>  user= new HashMap <Integer, String>();
+    public void sendMessage (String message, int iduser, int idrobot) throws IOException {
+        this.idu=iduser;
+        this.idr=idrobot;
+        System.out.println("idur"+idu);
+        System.out.println("idr"+idr);
         this.session.getBasicRemote().sendText(message);
+        System.out.println("Nouvelle connexion au serveur");
     }
 
     public static synchronized  int getOnlineCount (){
