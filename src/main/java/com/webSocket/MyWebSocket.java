@@ -2,6 +2,7 @@ package com.webSocket;
 
 import com.domain.AssociationUsersRobots;
 import com.repository.AssociationRepository;
+import com.services.Server;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -45,25 +47,33 @@ public class MyWebSocket {
         subOnlineCount();
         System.out.println("Fermer une connextion" + getOnlineCount());
     }
-
     //TODO recevoir le message qui vient de "android app"
     //Envoyer au client, et du cote de client, generer un popup
+    ArrayList<String> association = new ArrayList<>();
     @OnMessage
     public void onMessage (String message, Session session) throws IOException {
         System.out.println("From client:" + message);
-        System.out.println("idu"+idu);
-        System.out.println("idu"+idr);
-        if(Boolean.valueOf(message).booleanValue()){
-            System.out.println("aaaa");
-
+        if(Boolean.valueOf(message).booleanValue()){ // TODO : a modif equals
+            //System.out.println("TEST");
+            association.add(String.valueOf(idr));
+            String envoieID = "";
+            for(int i = association.size()-1; 0<=i  ;i--)
+               envoieID += association.get(i)+"/";
+            this.session.getBasicRemote().sendText("assoc/"+envoieID);
+            //this.session.getBasicRemote().sendText("assoc/"+association.toString());
+            Server.out.print("VALID/TRUE\r");
+            Server.out.flush();
+            System.out.println("Envoyer");
         }else{
-           System.out.println("qqq");
+            Server.out.print("VALID/FALSE\r");
+            Server.out.flush();
         }
         // chat
        // for ( MyWebSocket item : webSocketSet ){
          //   item.sendMessage(message);
         //}
     }
+
 
     int idu;
     int idr;
@@ -74,7 +84,7 @@ public class MyWebSocket {
         this.idr=idrobot;
         System.out.println("idur"+idu);
         System.out.println("idr"+idr);
-        this.session.getBasicRemote().sendText(message);
+        this.session.getBasicRemote().sendText("validID/"+message);
         System.out.println("Nouvelle connexion au serveur");
     }
 

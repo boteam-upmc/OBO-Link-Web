@@ -11,12 +11,12 @@ import java.net.Socket;
 import java.util.Objects;
 
 public class Server extends Thread{
-    public final int PORT = 60370;
+    public final int PORT = 60372;
 
-    private Socket androidSocket;
+    public static Socket androidSocket;
     private ServerSocket webSocket;
     private BufferedReader in;
-    private PrintWriter out;
+    public static PrintWriter out;
 
 
     public Server(){
@@ -31,44 +31,54 @@ public class Server extends Thread{
     public void run(){
 
         try {
+
             webSocket = new ServerSocket(PORT);
             System.out.println("Serveur: en attente de connexion d'un joueur sur le port "+ PORT);
+            while(true) {
+                androidSocket = webSocket.accept();
+                System.out.println("Nouvelle connexion au serveur.");
 
-            androidSocket = webSocket.accept();
-            System.out.println("Nouvelle connexion au serveur.");
+                this.in = new BufferedReader(new InputStreamReader(androidSocket.getInputStream()));
+                this.out = new PrintWriter(androidSocket.getOutputStream());
 
-            this.in = new BufferedReader(new InputStreamReader(androidSocket.getInputStream()));
-            this.out = new PrintWriter(androidSocket.getOutputStream());
 
-            while(true){
+                //while (true) {
+                    String[] req = {};
+                    String msg;
 
-                String[] req = {};
-                String msg;
+                    msg = in.readLine();
+                    //if(msg.endsWith("/")){ /* toutes les requetes se terminent par un / */
+                    req = msg.split("/");
+                    if (req.length != 0) {
+                        switch (req[0]) {
+                            case "ASSOC":
+                                // envoi client
 
-                msg = in.readLine();
-                //if(msg.endsWith("/")){ /* toutes les requetes se terminent par un / */
-                req = msg.split("/");
-                switch (req[0]) {
-                    case "ASSOC":
-                        // envoi client
-
-                        if(!MyWebSocket.getWebSocketSet().isEmpty()){
-                            MyWebSocket.getWebSocketSet().get(0).sendMessage("Do you want to associate this robot (ID : "+req[2]+" )", Integer.valueOf(req[1]).intValue(), Integer.valueOf(req[2]).intValue());
-                            out.println("ID-ROBOT:TRUE");
-                        }else{
-                            out.println("ID-ROBOT:FALSE");
+                                if (!MyWebSocket.getWebSocketSet().isEmpty()) {
+                                    MyWebSocket.getWebSocketSet().get(0).sendMessage("Do you want to associate this robot (ID : " + req[2] + " )", Integer.valueOf(req[1]).intValue(), Integer.valueOf(req[2]).intValue());
+                                    //out.println("VALID/TRUE/");
+                                } else {
+                                    // out.println("VALID/FALSE/");
+                                }
+                                break;
+                            default:
+                                System.out.println("TraitementMessage: COMMANDE IGNOREE");
+                                break;
                         }
-                        break;
-                    default:
-                        System.out.println("TraitementMessage: COMMANDE IGNOREE");
-                        break;
+                    }
+                    // }else System.out.println("run: REQUETE IGNOREE: une requete se termine par un /");
                 }
-                        // }else System.out.println("run: REQUETE IGNOREE: une requete se termine par un /");
-            }
-
+            //}
 
         } catch (IOException e) {
-            e.printStackTrace();
+           //e.printStackTrace();
+
+            try {
+                webSocket.close();
+                System.out.println("Arret client");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
 
     }

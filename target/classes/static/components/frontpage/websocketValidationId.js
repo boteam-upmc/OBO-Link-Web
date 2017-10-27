@@ -20,7 +20,38 @@ websocket.onopen = function (event) {
 
 //接收到消息的回调方法
 websocket.onmessage = function (event) {
-    setMessageInnerHTML(event.data);
+
+    var tab = event.data.split("/");
+    var test ="";
+    switch(tab[0]) {
+        case "assoc":
+            //TODO affichage tableau id
+
+
+
+            for (var i = 1; i < tab.length-1; i++) {
+              //  test += "<a href=\"#\" class=\"list-group-item list-group-item-action list-group-item-success\">\n";
+
+                test += "<tr>\n";
+                //test += "<a href=\"#\" class=\"list-group-item list-group-item-action flex-column align-items-start active\">\n";
+                test += "<td>\n";
+                test += tab[i];
+                test += "\n</td>\n";
+                test += "<td>\n";
+                test += " <button class=\"btn btn-danger\" type=\"button\"><i class=\"icon-warning-sign\"></i> Delete </button> \n";
+                test += "</td>\n";
+                //test += "</a>";
+                test += "</tr>\n";
+
+            }
+
+
+            document.getElementById('message').innerHTML += test + '<br/>';
+            break;
+        case "validID":
+            setMessageInnerHTML(tab[1]);
+            break;
+    }
 }
 
 //连接关闭的回调方法
@@ -49,10 +80,13 @@ function setMessageInnerHTML(innerHTML) {
             }
         },
         callback: function (result) {
-            console.log("message"+result);
+            console.log("message :"+result);
             websocket.send(result);
         }
     });
+}
+function setArrayId(innerHTML) {
+
 }
 
 //关闭连接
