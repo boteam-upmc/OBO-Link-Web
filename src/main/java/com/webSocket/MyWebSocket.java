@@ -1,44 +1,41 @@
 package com.webSocket;
 
-import com.domain.AssociationUsersRobots;
-import com.repository.AssociationRepository;
+import com.domain.UsersRobots;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.repository.UserRobotResopitory;
 import com.services.Server;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
+import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.List;
 
-@ServerEndpoint("/websocket")
+
+@ServerEndpoint(value = "/websocket/{user}/{password}", decoders = {UsersRobotsDecoder.class}, encoders = {UsersRobotsEncoder.class})
 @Component
 public class MyWebSocket {
 
     private static int onlineCount = 0;
-
     private static ArrayList<MyWebSocket> webSocketSet = new ArrayList<>();
-
     private Session session;
-
-    @Autowired
-    AssociationRepository repository;
+    private UserRobotResopitory repository = new UserRobotResopitory();
 
     //TODO modifier pour que appler ce methode quand le client se connecter
     @OnOpen
-    public void onOpen (Session session){
+    public void onOpen (@PathParam("user") String user,
+                        @PathParam("password")String password,
+                        Session session){
         this.session = session;
+        System.out.println("user="+user+"&password="+password);
         webSocketSet.add(this);
         addOnlineCount();
-        System.out.println("Nouvelle client se connecter! " + getOnlineCount());
+        System.out.println("Un nouveau client vient de se connecter! " + getOnlineCount());
     }
 
     @OnClose
@@ -47,45 +44,57 @@ public class MyWebSocket {
         subOnlineCount();
         System.out.println("Fermer une connextion" + getOnlineCount());
     }
-    //TODO recevoir le message qui vient de "android app"
-    //Envoyer au client, et du cote de client, generer un popup
-    ArrayList<String> association = new ArrayList<>();
+
     @OnMessage
-    public void onMessage (String message, Session session) throws IOException {
-        System.out.println("From client:" + message);
-        if(Boolean.valueOf(message).booleanValue()){ // TODO : a modif equals
-            //System.out.println("TEST");
-            association.add(String.valueOf(idr));
-            String envoieID = "";
-            for(int i = association.size()-1; 0<=i  ;i--)
-               envoieID += association.get(i)+"/";
-            this.session.getBasicRemote().sendText("assoc/"+envoieID);
-            //this.session.getBasicRemote().sendText("assoc/"+association.toString());
-            Server.out.print("VALID/TRUE\r");
-            Server.out.flush();
-            System.out.println("Envoyer");
-        }else{
+    public void onMessage (UsersRobots usersRobots, Session session) throws IOException {
+        System.out.println("user=="+ usersRobots.getIdUser()+"&"+usersRobots.getIdRobot());
+        repository.save(usersRobots);
+
+        //TODO findAll(int userId)
+        List<UsersRobots> all = repository.findByUserId(usersRobots.getIdUser());
+        sendMessage("validID", all);
+
+        Server.out.print("VALID/TRUE\r");
+        Server.out.flush();
+        System.out.println("Envoyer");
+        /*}else{
             Server.out.print("VALID/FALSE\r");
             Server.out.flush();
-        }
-        // chat
-       // for ( MyWebSocket item : webSocketSet ){
-         //   item.sendMessage(message);
-        //}
+        }*/
     }
 
+    public void sendMessage (String id, int idUser, int idRobot, String message) throws IOException {
+        System.out.println("Envoi d'une nouvelle requete <<"+id+">> au client");
 
-    int idu;
-    int idr;
+        JsonObject json = new JsonObject();
+        json.addProperty("id", id);
 
-    HashMap<Integer, String>  user= new HashMap <Integer, String>();
-    public void sendMessage (String message, int iduser, int idrobot) throws IOException {
-        this.idu=iduser;
-        this.idr=idrobot;
-        System.out.println("idur"+idu);
-        System.out.println("idr"+idr);
-        this.session.getBasicRemote().sendText("validID/"+message);
-        System.out.println("Nouvelle connexion au serveur");
+        JsonObject content = new JsonObject();
+        content.addProperty("idUser", idUser);
+        content.addProperty("idRobot", idRobot);
+        content.addProperty("message", message);
+        content.addProperty("confirm", false);
+
+        json.add("content", content);
+        this.session.getBasicRemote().sendText(json.toString());
+    }
+
+    public void sendMessage (String id, List<UsersRobots> list) throws IOException {
+        System.out.println("Envoi de la list des associations de user et client");
+
+        JsonObject json = new JsonObject();
+        json.addProperty("id", id);
+
+        JsonArray content = new JsonArray();
+
+        for(UsersRobots usersRobots: list){
+            JsonObject object = new JsonObject();
+            object.addProperty("idUser", usersRobots.getIdUser());
+            object.addProperty("idRobot", usersRobots.getIdRobot());
+            content.add(object);
+        }
+        json.add("content", content);
+        this.session.getBasicRemote().sendText(json.toString());
     }
 
     public static synchronized  int getOnlineCount (){

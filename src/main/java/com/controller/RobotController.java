@@ -1,22 +1,21 @@
 package com.controller;
 
 
-import com.domain.Users;
-import com.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.domain.Robot;
+import com.exception.EntityException;
+import com.repository.RobotRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "api/users")
+@RequestMapping(value = "api/robots")
 public class RobotController {
 
-    //@Autowired
-    //UserRepository userRepository;
+    private RobotRepository robotRepository = new RobotRepository();
 
-    //@GetMapping(value = "/{idUsers}")
-    // public Users get(@PathVariable("idUsers") Integer idUsers){ return userRepository.findOne(idUsers); }
-//}
+    @GetMapping(value = "/{idRobot}")
+    public Robot get(@PathVariable("idRobot") int idRobot) throws EntityException{
+        return robotRepository.findOne(idRobot); }
 }

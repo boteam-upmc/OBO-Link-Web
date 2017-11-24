@@ -8,10 +8,11 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Objects;
 
 public class Server extends Thread{
-    public final int PORT = 60372;
+    private final int PORT = 60372;
+
+
 
     public static Socket androidSocket;
     private ServerSocket webSocket;
@@ -19,59 +20,63 @@ public class Server extends Thread{
     public static PrintWriter out;
 
 
-    public Server(){
-
-        this.start();
-    }
+    public Server() { this.start(); }
 
     /************************************************************************
      *	        		                  RUN               				*
      ************************************************************************/
 
-    public void run(){
+    public void run() {
 
         try {
 
             webSocket = new ServerSocket(PORT);
-            System.out.println("Serveur: en attente de connexion d'un joueur sur le port "+ PORT);
-            while(true) {
-                androidSocket = webSocket.accept();
-                System.out.println("Nouvelle connexion au serveur.");
+            System.out.println("Serveur: en attente de connexion d'un joueur sur le port " + PORT);
 
-                this.in = new BufferedReader(new InputStreamReader(androidSocket.getInputStream()));
-                this.out = new PrintWriter(androidSocket.getOutputStream());
+            androidSocket = webSocket.accept();
+            System.out.println("Nouvelle connexion au serveur.");
+
+            this.in = new BufferedReader(new InputStreamReader(androidSocket.getInputStream()));
+            this.out = new PrintWriter(androidSocket.getOutputStream());
 
 
-                //while (true) {
-                    String[] req = {};
-                    String msg;
+            while (true){
+                String[] req = {};
+                String msg;
 
-                    msg = in.readLine();
-                    //if(msg.endsWith("/")){ /* toutes les requetes se terminent par un / */
+                msg = in.readLine();
+                System.out.println("msg : " + msg);
+
+                if (msg != null) { // Vérifie qu'on recoit pas null en cas de deconnection.
+
                     req = msg.split("/");
                     if (req.length != 0) {
-                        switch (req[0]) {
-                            case "ASSOC":
-                                // envoi client
 
+                        switch (req[0]) {
+
+                            case "ASSOC":
+                                //TODO plusieurs clients
                                 if (!MyWebSocket.getWebSocketSet().isEmpty()) {
-                                    MyWebSocket.getWebSocketSet().get(0).sendMessage("Do you want to associate this robot (ID : " + req[2] + " )", Integer.valueOf(req[1]).intValue(), Integer.valueOf(req[2]).intValue());
-                                    //out.println("VALID/TRUE/");
-                                } else {
-                                    // out.println("VALID/FALSE/");
+                                    MyWebSocket.getWebSocketSet().get(0).
+                                            sendMessage(req[0], Integer.valueOf(req[1]).intValue(), Integer.valueOf(req[2]).intValue(), "Do you want to associate this robot (ID : " + req[2] + " )" );
                                 }
                                 break;
+
                             default:
+
                                 System.out.println("TraitementMessage: COMMANDE IGNOREE");
                                 break;
                         }
-                    }
-                    // }else System.out.println("run: REQUETE IGNOREE: une requete se termine par un /");
-                }
-            //}
 
-        } catch (IOException e) {
-           //e.printStackTrace();
+                    }
+                } else {
+                    System.out.println("arrêt de l' autre serveur");
+                    break;
+                }
+
+            }
+
+        }catch (IOException e) {
 
             try {
                 webSocket.close();
@@ -79,8 +84,18 @@ public class Server extends Thread{
             } catch (IOException e1) {
                 e1.printStackTrace();
             }
+
+        }finally {
+
+            try {
+                webSocket.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
 
     }
+
+    public int getPORT() { return PORT; }
 
 }

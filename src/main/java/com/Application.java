@@ -14,13 +14,6 @@ import java.sql.SQLException;
 @EnableScheduling
 public class Application {
     public static void main(String[] args) {
-        try {
-            org.h2.tools.Server.createTcpServer("-tcpAllowOthers").start();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
         SpringApplication.run(Application.class, args);
         Server server = new Server();
 
