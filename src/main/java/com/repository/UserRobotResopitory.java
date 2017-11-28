@@ -25,8 +25,8 @@ public class UserRobotResopitory {
         return allQuery.getResultList();
     }
 
-    public UsersRobots save(UsersRobots usersRobots){
-        if(!transaction.isActive()) {
+    public UsersRobots save(UsersRobots usersRobots){ // beans
+        if(!transaction.isActive()) { // etre sur  qu on est connecte
             transaction.begin();
         }
 
@@ -44,7 +44,7 @@ public class UserRobotResopitory {
             }
 
         }catch (Exception e){
-            transaction.rollback();
+            transaction.rollback(); // atomic fait tout ou rien
         }
         return usersRobots;
     }

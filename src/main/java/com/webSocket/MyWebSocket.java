@@ -48,6 +48,7 @@ public class MyWebSocket {
     @OnMessage
     public void onMessage (UsersRobots usersRobots, Session session) throws IOException {
         System.out.println("user=="+ usersRobots.getIdUser()+"&"+usersRobots.getIdRobot());
+
         repository.save(usersRobots);
 
         //TODO findAll(int userId)
@@ -57,7 +58,7 @@ public class MyWebSocket {
         Server.out.print("VALID/TRUE\r");
         Server.out.flush();
         System.out.println("Envoyer");
-        /*}else{
+        /*}else{ //TODO renvoie false why ?
             Server.out.print("VALID/FALSE\r");
             Server.out.flush();
         }*/
@@ -79,7 +80,7 @@ public class MyWebSocket {
         this.session.getBasicRemote().sendText(json.toString());
     }
 
-    public void sendMessage (String id, List<UsersRobots> list) throws IOException {
+    public void sendMessage (String id, List<UsersRobots> list) throws IOException { // TODO : pas besoin de list
         System.out.println("Envoi de la list des associations de user et client");
 
         JsonObject json = new JsonObject();

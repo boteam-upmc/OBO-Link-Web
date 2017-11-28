@@ -10,13 +10,15 @@ public class UserRepository{
     private EntityManager entityManager = EntityManagerUtil.getEntityManager();
     private EntityTransaction transaction = entityManager.getTransaction();
 
-    public User findOne(int userId) throws EntityException{
+    public boolean findOne(int userId, String passe) throws EntityException{
         User user = entityManager.find(User.class, userId);
         if(user == null){
             System.out.println("null true");
             throw new EntityException(userId);
+        }else if(passe.equals(user.getPasse())){
+            return true;
         }
-        return user;
+        return false;
     }
 
     public User save(User user){

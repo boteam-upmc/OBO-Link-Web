@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "api/{userId}/videos")
+@RequestMapping(value = "/api/{userId}/videos")
 public class VideoController {
     private VideoRepository repository = new VideoRepository();
 
@@ -19,4 +19,5 @@ public class VideoController {
     public List<Video> get(@PathVariable int userId) throws EntityException {
         return repository.findByUserId(userId);
     }
+
 }
