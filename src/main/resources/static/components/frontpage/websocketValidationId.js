@@ -1,8 +1,12 @@
+//get parametre
+var id=window.location.href.split("=")[1];
+//
+
 var websocket = null;
 
 //distinger le navigateur qui support WebSocket ou pas
 if ('WebSocket' in window) {
-    websocket = new WebSocket("ws://localhost:8080/websocket/foo/bar");
+    websocket = new WebSocket("ws://localhost:8080/websocket");
 }
 else {
     alert('Not support websocket')

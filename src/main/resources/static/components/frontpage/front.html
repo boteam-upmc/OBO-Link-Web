@@ -19,6 +19,13 @@
 </head>
 
 <body>
+<script>
+    function getVideos() {
+        idUser=window.location.href.split("=")[1];
+        window.location.href='video.html?idUser='+idUser;
+
+    }
+</script>
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
@@ -50,7 +57,8 @@
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
                 <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-                <li> <a href="video.html">Videos</a></li>
+                <li> <a href="#" onclick="getVideos()">Videos</a></li>
+                <!--<li> <a href="video.html?idUser="+id>Videos</a></li>-->
             </ul>
         </div>
     </div>
@@ -63,6 +71,11 @@
                 <thead class="thead-default">
                 <tr>
                     <th colspan="3">ID d'association</th>
+                </tr>
+                <tr>
+                    <td>l'id user</td>
+                    <td>l'id robot</td>
+                    <td></td>
                 </tr>
                 </thead>
                 <tbody id="message"></tbody>
@@ -82,81 +95,5 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><script src="../../dist/js/bootbox.min.js"></script>
 
 <script type="text/javascript" src="websocketValidationId.js"></script>
-<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"> </script>
-<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-<script src="../../dist/js/bootstrap.min.js"></script>
-&lt;!&ndash; Just to make our placeholder images work. Don't actually copy the next line! &ndash;&gt;
-<script src="../../assets/js/vendor/holder.min.js"></script>
-&lt;!&ndash; IE10 viewport hack for Surface/desktop Windows 8 bug &ndash;&gt;
-<script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
-<script src="../../dist/js/bootbox.min.js"></script>-->
-
-
-
-<!--<script>
-    function gestionVideo(urlVideo) {
-        $('#bb').html('');
-        var temp = '<div id="video" class="col-sm-8">';
-        temp += '<video id="my-video" class="video-js" controls preload="auto" width="540" height="264" poster="../../images/ronaldo.jpg" data-setup="{}">';
-        temp += '<source src="'+urlVideo+'" type="video/mp4"/>';
-        // temp += '<source src="../../animations/'+urlVideo+'" type="video/webm"/>';
-        temp += '<p class="vjs-no-js"> To view this video please enable JavaScript, and consider upgrading to a web browser that';
-        temp +='<a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>';
-        temp += '</p>';
-        temp += '</video>';
-        temp += '</div>';
-        $('#bb').append(temp);
-    }
-
-    $(function () {
-
-        update();
-
-        function update() {
-            $.get('http://localhost:8080/api/1001/videos/all',  // TODO ici mettre le nom de la servlet qui recup de json de la video
-                {"action": "update"},
-                function (data, status) {
-                    //res = JSON.parse(data);
-                    res = data;
-                    $('#bb').html('');
-                    for (var i = 0; i < res.length; i=i+3) {
-                        var tmp = '<div class="row">';
-                        for (var j = 0; j < 3; j++) {
-                            if (res.length > i + j) {
-                                tmp += '<div id="clickmedawn" class="col-4">' +
-                                    '<div class="thumbnail">' +
-                                    '<a href="#">' +
-                                    '<img src="'+ res[i+j].urlImage+'" alt="Lights" style="width:30%">' +
-                                    '<div class="caption">'+ res[i+j].titre + '' + res[i+j].duration +
-                                    '<span id="urlVideo">'+  res[i+j].urlVideo  +' </span>'+
-                                    '</div>\n </a>\n </div>';
-
-                            }
-                        }
-                        tmp += '</div>';
-                        // $("#urlVideo").hide();
-                        $('#bb').append(tmp);
-
-                    }
-
-                    var clickme = document.getElementById('clickmedawn');
-                    clickme.addEventListener('click', function() {
-                        var urlVideo = document.getElementById('urlVideo');
-                        var monTexte = urlVideo.innerText || urlVideo.textContent;
-                        gestionVideo(monTexte);
-                    }, false);
-                });
-
-        }
-
-
-
-    });
-
-
-</script>-->
-
-
-
 </body>
 </html>

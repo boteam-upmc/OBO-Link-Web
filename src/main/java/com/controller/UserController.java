@@ -17,5 +17,5 @@ public class UserController {
 
     @GetMapping(value = "/{id}")
     public User get(@PathVariable("id") int id) throws EntityException {
-        return userRepository.findOne(id); }
+        return userRepository.findById(id); }
 }

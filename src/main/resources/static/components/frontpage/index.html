@@ -1,10 +1,11 @@
+<!--
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    &lt;!&ndash; The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags &ndash;&gt;
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="../../images/favicon.ico">
@@ -12,24 +13,24 @@
 
     <title>OBO Link</title>
 
-    <!-- Bootstrap core CSS -->
+    &lt;!&ndash; Bootstrap core CSS &ndash;&gt;
     <link href="../../dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    &lt;!&ndash; IE10 viewport hack for Surface/desktop Windows 8 bug &ndash;&gt;
     <link href="../../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
+    &lt;!&ndash; Custom styles for this template &ndash;&gt;
     <link href="jumbotron.css" rel="stylesheet">
 
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    &lt;!&ndash; Just for debugging purposes. Don't actually copy these 2 lines! &ndash;&gt;
+    &lt;!&ndash;[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]&ndash;&gt;
     <script src="../../assets/js/ie-emulation-modes-warning.js"></script>
 
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
+    &lt;!&ndash; HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries &ndash;&gt;
+    &lt;!&ndash;[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
+    <![endif]&ndash;&gt;
 </head>
 
 <body>
@@ -48,27 +49,27 @@
         <div id="navbar" class="navbar-collapse collapse">
             <form class="navbar-form navbar-right" action="../forms/signup.html">
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary">Sign up</button> <!--  onclick="../forms/signup.html" -->
+                    <button type="submit" class="btn btn-primary">Sign up</button> &lt;!&ndash;  onclick="../forms/signup.html" &ndash;&gt;
                 </div>
             </form>
-            <form class="navbar-form navbar-right" method="post" action="front.html">
+            <form class="navbar-form navbar-right">
                 <div class="form-group">
-                    <input type="text" placeholder="Email" class="form-control">
+                    <input type="text" id="pseudo" placeholder="Email" class="form-control">
                 </div>
                 <div class="form-group">
-                    <input type="password" placeholder="Password" class="form-control">
+                    <input type="password" id = "password" placeholder="Password" class="form-control">
                 </div>
-                <button type="submit" class="btn btn-success">Sign in</button>
+                <button type="submit" id= "login" class="btn btn-success">Sign in</button>
             </form>
-        </div><!--/.navbar-collapse -->
+        </div>&lt;!&ndash;/.navbar-collapse &ndash;&gt;
     </div>
 </nav>
 
-<!-- Main jumbotron for a primary marketing message or call to action -->
+&lt;!&ndash; Main jumbotron for a primary marketing message or call to action &ndash;&gt;
 <div class="jumbotron">
     <div class="container">
         <h1>Welcome on the OBO Link web platform </h1>
-        <!-- <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p> -->
+        &lt;!&ndash; <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p> &ndash;&gt;
     </div>
 </div>
 
@@ -78,21 +79,71 @@
 <footer>
     <p>&copy; 2017 BoTeam Company, Inc.</p>
 </footer>
-</div> <!-- /container -->
+</div> &lt;!&ndash; /container &ndash;&gt;
 
 
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
+&lt;!&ndash; Bootstrap core JavaScript
+================================================== &ndash;&gt;
+&lt;!&ndash; Placed at the end of the document so the pages load faster &ndash;&gt;
+&lt;!&ndash;<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>&ndash;&gt;
 <script src="../../dist/js/bootstrap.min.js"></script>
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+&lt;!&ndash; IE10 viewport hack for Surface/desktop Windows 8 bug &ndash;&gt;
 <script src="../../assets/js/ie10-viewport-bug-workaround.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>&lt;!&ndash; IE10 viewport hack for Surface/desktop Windows 8 bug &ndash;&gt;
+-->
+
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../images/favicon.ico">
+</head>
+<body>
+    <title>OBO Link</title>
+
+        <input type="text" id="pseudo" placeholder="Email" class="form-control">
+        <input type="password" id = "password" placeholder="Password" class="form-control">
+        <button type="submit" id= "login" class="btn btn-success">Sign in</button>
+
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script><!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><script src="../../dist/js/bootbox.min.js"></script>
+
+<script>
+    $(function () {
+        $(document).ready(function () {
+
+        });
+
+        var login = document.getElementById('login');
+        login.addEventListener('click', function () {
+            var pseudo = document.getElementById('pseudo').value;
+            var password = document.getElementById('password').value;
+            seConnecter(pseudo, password);
+
+        }, false);
+    })
+
+    function seConnecter(pseudo, password) {
+        $.get('http://localhost:8080/api/client/login',
+            {"pseudo": pseudo, "password": password},
+        function (data, status) {
+                alert(data.nom)
+
+                window.location.href='front.html?idUser='+data.idUser;
+            },'json');
+     }
+</script>
+
 </body>
 </html>
-$.post("http://localhost:8080/api/client/login/",function(data){
-
-
-
-});

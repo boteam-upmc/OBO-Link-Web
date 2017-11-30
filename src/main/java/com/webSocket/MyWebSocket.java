@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@ServerEndpoint(value = "/websocket/{user}/{password}", decoders = {UsersRobotsDecoder.class}, encoders = {UsersRobotsEncoder.class})
+@ServerEndpoint(value = "/websocket", decoders = {UsersRobotsDecoder.class}, encoders = {UsersRobotsEncoder.class})
 @Component
 public class MyWebSocket {
 
@@ -26,7 +26,6 @@ public class MyWebSocket {
     private Session session;
     private UserRobotResopitory repository = new UserRobotResopitory();
 
-    //TODO modifier pour que appler ce methode quand le client se connecter
     @OnOpen
     public void onOpen (@PathParam("user") String user,
                         @PathParam("password")String password,

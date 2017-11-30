@@ -82,11 +82,11 @@
     }
 
     $(function () {
-
+        var idUser=window.location.href.split("=")[1];
         update();
 
         function update() {
-            $.get('http://localhost:8080/api/1001/videos/all',  // TODO ici mettre le nom de la servlet qui recup de json de la video
+            $.get('http://localhost:8080/api/'+idUser+'/videos/all',  // TODO ici mettre le nom de la servlet qui recup de json de la video
                 {"action": "update"},
                 function (data, status) {
                     //res = JSON.parse(data);

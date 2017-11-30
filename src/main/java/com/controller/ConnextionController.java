@@ -5,16 +5,24 @@ import com.exception.EntityException;
 import com.repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+
 @RestController
 @RequestMapping(value = "api/client")
 public class ConnextionController {
 
     private UserRepository userRepository = new UserRepository();
 
-    @PostMapping(value = "/login/{userId}/{password}")
-    public boolean logIn(@PathVariable int userId, String password) throws EntityException{
-        return userRepository.findOne(userId, password);
+    @GetMapping(value = "/login")
+    public User logIn(@RequestParam("pseudo") int pseudo,
+                      @RequestParam("password") String password) throws EntityException{
 
+        User user =  userRepository.findOne(pseudo, password);
+        System.out.println("USER=="+ user.getPrenom()+ user.getAlpha());
+        return user;
     }
+
+
 
 }

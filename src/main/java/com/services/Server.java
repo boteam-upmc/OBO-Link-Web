@@ -8,6 +8,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Server extends Thread{
     private final int PORT = 60372;
@@ -55,10 +56,13 @@ public class Server extends Thread{
                         switch (req[0]) {
 
                             case "ASSOC":
-                                //TODO plusieurs clients
                                 if (!MyWebSocket.getWebSocketSet().isEmpty()) {
-                                    MyWebSocket.getWebSocketSet().get(0).
-                                            sendMessage(req[0], Integer.valueOf(req[1]).intValue(), Integer.valueOf(req[2]).intValue(), "Do you want to associate this robot (ID : " + req[2] + " )" );
+                                    //MyWebSocket.getWebSocketSet().get(0).//TODO plusieurs clients
+                                    ArrayList<MyWebSocket> webSockets = MyWebSocket.getWebSocketSet();
+                                    for(MyWebSocket webSocket: webSockets) {
+
+                                        webSocket.sendMessage(req[0], Integer.valueOf(req[1]).intValue(), Integer.valueOf(req[2]).intValue(), "Do you want to associate this robot (ID : " + req[2] + " )");
+                                    }
                                 }
                                 break;
 

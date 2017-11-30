@@ -17,6 +17,7 @@ public class VideoController {
 
     @GetMapping(value = "/all")
     public List<Video> get(@PathVariable int userId) throws EntityException {
+        System.out.println("888888");
         return repository.findByUserId(userId);
     }
 
