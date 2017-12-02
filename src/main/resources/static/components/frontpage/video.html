@@ -40,6 +40,7 @@
             </ul>
             <form class="navbar-form navbar-right">
                 <input type="text" class="form-control" placeholder="Search...">
+                <a href="#" onclick="deleteVideo(element.idUser, element.idRobot)"></a>
             </form>
         </div>
     </div>
@@ -86,7 +87,7 @@
         update();
 
         function update() {
-            $.get('http://localhost:8080/api/'+idUser+'/videos/all',  // TODO ici mettre le nom de la servlet qui recup de json de la video
+            $.get('http://localhost:8080/api/'+idUser+'/videos',  // TODO ici mettre le nom de la servlet qui recup de json de la video
                 {"action": "update"},
                 function (data, status) {
                     //res = JSON.parse(data);

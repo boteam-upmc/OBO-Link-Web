@@ -57,7 +57,6 @@ public class Server extends Thread{
 
                             case "ASSOC":
                                 if (!MyWebSocket.getWebSocketSet().isEmpty()) {
-                                    //MyWebSocket.getWebSocketSet().get(0).//TODO plusieurs clients
                                     ArrayList<MyWebSocket> webSockets = MyWebSocket.getWebSocketSet();
                                     for(MyWebSocket webSocket: webSockets) {
 

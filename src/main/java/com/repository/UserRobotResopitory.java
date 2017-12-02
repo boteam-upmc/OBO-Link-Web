@@ -2,6 +2,7 @@ package com.repository;
 
 import com.domain.UsersRobots;
 import com.domain.Video;
+import com.exception.EntityException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
@@ -16,6 +17,9 @@ public class UserRobotResopitory {
     private EntityManager entityManager = EntityManagerUtil.getEntityManager();
     private EntityTransaction transaction= entityManager.getTransaction();
 
+    /*
+    * chercher tous les associations d'utilisateur et robot.
+    * */
     public List<UsersRobots> findAll(){
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<UsersRobots> cq = cb.createQuery(UsersRobots.class);
@@ -25,12 +29,21 @@ public class UserRobotResopitory {
         return allQuery.getResultList();
     }
 
+    /*
+    * chercher les associations par utilisateur.
+    * */
+    public List<UsersRobots> findByUserId(int idUser){
+        return  (List<UsersRobots>) entityManager.createQuery("SELECT ur FROM UsersRobots ur where ur.idUser = :idUser").setParameter("idUser",idUser).getResultList();
+    }
+
+    /*
+    * stoker une association
+    * */
     public UsersRobots save(UsersRobots usersRobots){ // beans
         if(!transaction.isActive()) { // etre sur  qu on est connecte
             transaction.begin();
         }
 
-        System.out.println("usersRobots=="+ usersRobots.getIdRobot()+ usersRobots.getIdUser());
         try {
             //TODO optimiser : find(id, id) by Composite-id class
             //UsersRobots usersRobots1 = entityManager.find(UsersRobots.class, usersRobots);
@@ -49,8 +62,25 @@ public class UserRobotResopitory {
         return usersRobots;
     }
 
-    public boolean findExist(UsersRobots usersRobots){
-        System.out.println("entre");
+    /*
+    * supprimer une association
+    * */
+    public List<UsersRobots> deleteAssociation(UsersRobots usersRobots) throws EntityException {
+        if(!transaction.isActive()) {
+            transaction.begin();
+        }
+        boolean exist = findExist(usersRobots);
+        if(exist == true){
+            entityManager.remove(entityManager.contains(usersRobots)? usersRobots: entityManager.merge(usersRobots));
+            entityManager.getTransaction().commit();
+        }
+        return findByUserId(usersRobots.getIdUser());
+    }
+
+    /*
+    * Avant que stoker et supprimer une association, on filtre qu'il existe deja ou pas
+    * */
+    private boolean findExist(UsersRobots usersRobots){
         List<UsersRobots> result =  (List<UsersRobots>) entityManager.createQuery("SELECT ur FROM UsersRobots ur where ur.idUser = :idUser and ur.idRobot = :idRobot")
                 .setParameter("idUser",usersRobots.getIdUser())
                 .setParameter("idRobot",usersRobots.getIdRobot())
@@ -60,11 +90,4 @@ public class UserRobotResopitory {
         }
         return false;
     }
-
-    public List<UsersRobots> findByUserId(int idUser){
-
-        return  (List<UsersRobots>) entityManager.createQuery("SELECT ur FROM UsersRobots ur where ur.idUser = :idUser").setParameter("idUser",idUser).getResultList();
-    }
-
-
 }

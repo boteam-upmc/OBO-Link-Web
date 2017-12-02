@@ -31,6 +31,7 @@ websocket.onmessage = function (event) {
             //TODO affichage tableau id par userId
             var test ="";
             jsonIdRobot.content.forEach(function(element) {
+                alert(element.idUser)
                 test += "<tr>\n";
                 test += "<td>\n";
                 test += element.idUser;
@@ -39,7 +40,9 @@ websocket.onmessage = function (event) {
                 test += element.idRobot;
                 test += "\n</td>\n";
                 test += "<td>\n";
-                test += " <button class=\"btn btn-danger\" type=\"button\"><i class=\"icon-warning-sign\"></i> Delete </button> \n";
+                test += "<a href=\"#\" onclick=\"deleteVideo("+element.idUser+","+ element.idRobot+")\">";
+                test += "<button class=\"btn btn-danger\" type=\"button\"><i class=\"icon-warning-sign\"></i> Deleteeee</button>";
+                test += "</a>";
                 test += "</td>\n";
                 test += "</tr>\n";
             });
@@ -112,4 +115,55 @@ function send() {
 
 function send_message(message) {
     websocket.send(message);
+}
+
+function deleteVideo(idUser, idRobot) {
+    alert('delete=='+ idUser+'&'+idRobot)
+    var userRobot = {
+        idUser: idUser,
+        idRobot: idRobot
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/api/'+idUser+'/users_robots/delete",
+        datatype: "application/json",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(userRobot),
+        success: function (result) {
+            alert(result);
+            var test ="";
+            result.forEach(function(element) {
+                alert(element.idUser)
+                test += "<tr>\n";
+                test += "<td>\n";
+                test += element.idUser;
+                test += "\n</td>\n";
+                test += "<td>\n";
+                test += element.idRobot;
+                test += "\n</td>\n";
+                test += "<td>\n";
+                test += "<a href=\"#\" onclick=\"deleteVideo("+element.idUser+","+ element.idRobot+")\">";
+                test += "<button class=\"btn btn-danger\" type=\"button\"><i class=\"icon-warning-sign\"></i> Deleteeee</button>";
+                test += "</a>";
+                test += "</td>\n";
+                test += "</tr>\n";
+            });
+
+            document.getElementById('message').innerHTML += test + '<br/>';
+
+
+        },
+        error: function (error) {
+            alert(error)
+        }
+    })
+
+    /*$.post('http://localhost:8080/api/'+idUser+'/users_robots/delete',
+        {"userRobot": JSON.stringify(userRobot)},
+        function (data, status) {
+            //res = JSON.parse(data);
+            res = data;
+            alert(data)
+        },'json')*/
 }

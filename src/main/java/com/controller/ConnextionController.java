@@ -5,9 +5,6 @@ import com.exception.EntityException;
 import com.repository.UserRepository;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-
 @RestController
 @RequestMapping(value = "api/client")
 public class ConnextionController {

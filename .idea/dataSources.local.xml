@@ -4,5 +4,15 @@
     <data-source name="default@localhost" uuid="49d87976-9ed5-476c-a2ee-e4c5154c34b5">
       <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" />
     </data-source>
+    <data-source name="bdd_mondiale@localhost" uuid="4bc8a4cb-7e43-470a-a5bd-87a723967dae">
+      <database-info product="MySQL" version="5.7.20-0ubuntu0.16.04.1" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.44 ( Revision: b3cda4f864902ffdde495b9df93937c3e20009be )">
+        <extra-name-characters>#@</extra-name-characters>
+        <identifier-quote-string>`</identifier-quote-string>
+      </database-info>
+      <case-sensitivity plain-identifiers="exact" quoted-identifiers="exact" />
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <introspection-schemas>*:bdd_mondiale</introspection-schemas>
+    </data-source>
   </component>
 </project>
