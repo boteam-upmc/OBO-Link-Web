@@ -1,7 +1,7 @@
 
 //1, apres que l'utilisateur se connecter, obtenir le parametre idUser
 var idUser=window.location.href.split("=")[1];
-
+alert('front.html=='+ idUser)
 var websocket = null;
 
 //2, apres que l'utilisateur se connecter, afficher tous les associations par utilisateur
@@ -147,7 +147,7 @@ function writeHtml(data) {
         test += "\n</td>\n";
         test += "<td>\n";
         test += "<a href=\"#\" onclick=\"deleteVideo("+element.idUser+","+ element.idRobot+")\">";
-        test += "<button class=\"btn btn-danger\" type=\"button\"><i class=\"icon-warning-sign\"></i> Deleteeee</button>";
+        test += "<button class=\"btn btn-danger\" type=\"button\"><i class=\"icon-warning-sign\"></i> Delete</button>";
         test += "</a>";
         test += "</td>\n";
         test += "</tr>\n";

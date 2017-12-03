@@ -19,7 +19,6 @@
 </head>
 
 <body>
-
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
@@ -40,7 +39,6 @@
             </ul>
             <form class="navbar-form navbar-right">
                 <input type="text" class="form-control" placeholder="Search...">
-                <a href="#" onclick="deleteVideo(element.idUser, element.idRobot)"></a>
             </form>
         </div>
     </div>
@@ -50,7 +48,7 @@
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
-                <li><a href="front.html">Overview</a></li>
+                <li> <a href="#" onclick="goAssociation()">Association</a></li>
                 <li class="active"><a href="#">Videos <span class="sr-only">(current)</span></a></li>
             </ul>
         </div>
@@ -68,6 +66,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script><script src="../../dist/js/bootbox.min.js"></script>
 
 <script>
+
     function gestionVideo(urlVideo) {
         $('#bb').html('');
         var temp = '<div id="video" class="col-sm-8">';
@@ -80,6 +79,15 @@
         temp += '</video>';
         temp += '</div>';
         $('#bb').append(temp);
+    }
+
+
+
+    function goAssociation() {
+        var idUser=window.location.href.split("=")[1];
+        alert('goAssociation='+ idUser)
+        window.location.href='front.html?idUser='+idUser;
+
     }
 
     $(function () {

@@ -41,10 +41,17 @@ public class MyWebSocket {
     }
 
     //TODO when?
-    @OnClose
+    /*@OnClose
     public void onClose (){
 
         //webSocketSet.remove(this);
+        subOnlineCount();
+        System.out.println("Fermer une connextion" + getOnlineCount());
+    }*/
+    @OnClose
+    public void onClose (@PathParam("idUser") int idUser){
+
+        webSocketMap.remove(idUser);
         subOnlineCount();
         System.out.println("Fermer une connextion" + getOnlineCount());
     }

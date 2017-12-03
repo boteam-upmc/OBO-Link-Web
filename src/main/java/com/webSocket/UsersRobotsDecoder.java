@@ -10,6 +10,7 @@ import javax.websocket.EndpointConfig;
 public class UsersRobotsDecoder implements javax.websocket.Decoder.Text<UsersRobots>{
     @Override
     public UsersRobots decode(String usersRobots) throws DecodeException {
+        System.out.println("decode..");
         return JSON.parseObject(usersRobots, UsersRobots.class);
     }
 
