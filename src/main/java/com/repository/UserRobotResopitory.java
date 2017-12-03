@@ -32,6 +32,7 @@ public class UserRobotResopitory {
     /*
     * chercher les associations par utilisateur.
     * */
+    //TODO check nombre de result
     public List<UsersRobots> findByUserId(int idUser){
         return  (List<UsersRobots>) entityManager.createQuery("SELECT ur FROM UsersRobots ur where ur.idUser = :idUser").setParameter("idUser",idUser).getResultList();
     }

@@ -138,8 +138,6 @@
         $.get('http://localhost:8080/api/client/login',
             {"pseudo": pseudo, "password": password},
         function (data, status) {
-                alert(data.nom)
-
                 window.location.href='front.html?idUser='+data.idUser;
             },'json');
      }

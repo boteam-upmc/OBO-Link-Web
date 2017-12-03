@@ -1,12 +1,17 @@
-//get parametre
-var id=window.location.href.split("=")[1];
-//
+
+//1, apres que l'utilisateur se connecter, obtenir le parametre idUser
+var idUser=window.location.href.split("=")[1];
 
 var websocket = null;
 
+//2, apres que l'utilisateur se connecter, afficher tous les associations par utilisateur
+getAssociation();
+
+
 //distinger le navigateur qui support WebSocket ou pas
 if ('WebSocket' in window) {
-    websocket = new WebSocket("ws://localhost:8080/websocket");
+    //3, apres que l'utilisateur se connecter, ouvrir websocket pour ecouter l'evenment
+    websocket = new WebSocket("ws://localhost:8080/websocket/"+ idUser);
 }
 else {
     alert('Not support websocket')
@@ -28,26 +33,7 @@ websocket.onmessage = function (event) {
     var jsonIdRobot = JSON.parse(objData);
     switch(jsonIdRobot.id) {
         case "validID":
-            //TODO affichage tableau id par userId
-            var test ="";
-            jsonIdRobot.content.forEach(function(element) {
-                alert(element.idUser)
-                test += "<tr>\n";
-                test += "<td>\n";
-                test += element.idUser;
-                test += "\n</td>\n";
-                test += "<td>\n";
-                test += element.idRobot;
-                test += "\n</td>\n";
-                test += "<td>\n";
-                test += "<a href=\"#\" onclick=\"deleteVideo("+element.idUser+","+ element.idRobot+")\">";
-                test += "<button class=\"btn btn-danger\" type=\"button\"><i class=\"icon-warning-sign\"></i> Deleteeee</button>";
-                test += "</a>";
-                test += "</td>\n";
-                test += "</tr>\n";
-            });
-
-            document.getElementById('message').innerHTML += test + '<br/>';
+            writeHtml(jsonIdRobot.content)
             break;
 
         case "ASSOC":
@@ -117,8 +103,16 @@ function send_message(message) {
     websocket.send(message);
 }
 
+function getAssociation() {
+    $.get('http://localhost:8080/api/'+ idUser +'/users_robots'
+    ).done(function (data, status) {
+        writeHtml(data);
+    })
+}
+
 function deleteVideo(idUser, idRobot) {
-    alert('delete=='+ idUser+'&'+idRobot)
+    //TODO add confirm
+    //if(confirm('Are you sure you want to delete this?')){
     var userRobot = {
         idUser: idUser,
         idRobot: idRobot
@@ -126,44 +120,38 @@ function deleteVideo(idUser, idRobot) {
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:8080/api/'+idUser+'/users_robots/delete",
+        url: "http://localhost:8080/api/"+idUser+"/users_robots/delete",
         datatype: "application/json",
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(userRobot),
         success: function (result) {
-            alert(result);
-            var test ="";
-            result.forEach(function(element) {
-                alert(element.idUser)
-                test += "<tr>\n";
-                test += "<td>\n";
-                test += element.idUser;
-                test += "\n</td>\n";
-                test += "<td>\n";
-                test += element.idRobot;
-                test += "\n</td>\n";
-                test += "<td>\n";
-                test += "<a href=\"#\" onclick=\"deleteVideo("+element.idUser+","+ element.idRobot+")\">";
-                test += "<button class=\"btn btn-danger\" type=\"button\"><i class=\"icon-warning-sign\"></i> Deleteeee</button>";
-                test += "</a>";
-                test += "</td>\n";
-                test += "</tr>\n";
-            });
-
-            document.getElementById('message').innerHTML += test + '<br/>';
-
-
+            writeHtml(result);
         },
         error: function (error) {
             alert(error)
         }
     })
+}
 
-    /*$.post('http://localhost:8080/api/'+idUser+'/users_robots/delete',
-        {"userRobot": JSON.stringify(userRobot)},
-        function (data, status) {
-            //res = JSON.parse(data);
-            res = data;
-            alert(data)
-        },'json')*/
+// affichage tableau d'association par userId
+function writeHtml(data) {
+    $('#message').html('');
+    var test ="";
+    data.forEach(function(element) {
+        test += "<tr>\n";
+        test += "<td>\n";
+        test += element.idUser;
+        test += "\n</td>\n";
+        test += "<td>\n";
+        test += element.idRobot;
+        test += "\n</td>\n";
+        test += "<td>\n";
+        test += "<a href=\"#\" onclick=\"deleteVideo("+element.idUser+","+ element.idRobot+")\">";
+        test += "<button class=\"btn btn-danger\" type=\"button\"><i class=\"icon-warning-sign\"></i> Deleteeee</button>";
+        test += "</a>";
+        test += "</td>\n";
+        test += "</tr>\n";
+    });
+    $('#message').append(test);
+
 }

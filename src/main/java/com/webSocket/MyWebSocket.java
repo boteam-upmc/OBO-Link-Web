@@ -13,44 +13,46 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
-@ServerEndpoint(value = "/websocket", decoders = {UsersRobotsDecoder.class}, encoders = {UsersRobotsEncoder.class})
+@ServerEndpoint(value = "/websocket/{idUser}", decoders = {UsersRobotsDecoder.class}, encoders = {UsersRobotsEncoder.class})
 @Component
 public class MyWebSocket {
 
     private static int onlineCount = 0;
-    private static ArrayList<MyWebSocket> webSocketSet = new ArrayList<>();
+    //remplacer ArrayList par HashMap: pour ajouter l'identifiant de chaque websocket
+    /*private static ArrayList<MyWebSocket> webSocketSet = new ArrayList<>();*/
+    private static Map<Integer, MyWebSocket> webSocketMap = new HashMap<>();
     private Session session;
     private UserRobotResopitory repository = new UserRobotResopitory();
 
     @OnOpen
-    public void onOpen (@PathParam("user") String user,
-                        @PathParam("password")String password,
+    public void onOpen (@PathParam("idUser") int idUser,
                         Session session){
         this.session = session;
-        System.out.println("user="+user+"&password="+password);
-        webSocketSet.add(this);
+        /*webSocketSet.add(this);*/
+
+        webSocketMap.put(idUser, this);
         addOnlineCount();
         System.out.println("Un nouveau client vient de se connecter! " + getOnlineCount());
     }
 
+    //TODO when?
     @OnClose
     public void onClose (){
-        webSocketSet.remove(this);
+
+        //webSocketSet.remove(this);
         subOnlineCount();
         System.out.println("Fermer une connextion" + getOnlineCount());
     }
 
     @OnMessage
     public void onMessage (UsersRobots usersRobots, Session session) throws IOException {
-        System.out.println("user=="+ usersRobots.getIdUser()+"&"+usersRobots.getIdRobot());
-
         repository.save(usersRobots);
 
-        //TODO findAll(int userId)
         List<UsersRobots> all = repository.findByUserId(usersRobots.getIdUser());
         sendMessage("validID", all);
 
@@ -109,7 +111,10 @@ public class MyWebSocket {
         MyWebSocket.onlineCount--;
     }
 
-    public static ArrayList<MyWebSocket> getWebSocketSet() {
+    /*public static ArrayList<MyWebSocket> getWebSocketSet() {
         return webSocketSet;
+    }*/
+    public static Map<Integer, MyWebSocket> getWebSocketMap(){
+        return webSocketMap;
     }
 }

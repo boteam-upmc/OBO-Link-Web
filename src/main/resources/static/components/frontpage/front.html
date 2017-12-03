@@ -20,7 +20,7 @@
 
 <body>
 <script>
-    function getVideos() {
+    function goVideos() {
         idUser=window.location.href.split("=")[1];
         window.location.href='video.html?idUser='+idUser;
 
@@ -57,7 +57,7 @@
         <div class="col-sm-3 col-md-2 sidebar">
             <ul class="nav nav-sidebar">
                 <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-                <li> <a href="#" onclick="getVideos()">Videos</a></li>
+                <li> <a href="#" onclick="goVideos()">Videos</a></li>
                 <!--<li> <a href="video.html?idUser="+id>Videos</a></li>-->
             </ul>
         </div>
